@@ -4,8 +4,6 @@
   <img src="readme/pumpq_logo.png" alt="pumpqlogo" width="600" />
 </div>
 
-PumpQ is a modern web application designed for smart drivers, showcasing the platform's core values. The landing page highlights convenient road services including comparing fuel rates, checking real-time stock levels, and contactless digital queue bypass for refueling.
-
 ---
 
 ## 🚀 How to Run the Project Locally
@@ -27,5 +25,14 @@ Open `http://localhost:5173` in your web browser to view the live landing page.
 To bundle and compile the application for deployment:
 ```bash
 npm run build
-```
 
+```
+## 👥 Team
+
+**Capstone Leader:**
+> Trixette Rain A. Montallana
+
+**Members:**
+> Jhon Rovic A. Ramos<br/>
+> Bridget Narte<br/>
+> John Armand Alvarez
