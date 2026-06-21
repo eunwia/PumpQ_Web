@@ -57,7 +57,6 @@ const screenshots = [
 function App() {
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [blobs, setBlobs] = useState<BlobConfig[]>([]);
-  const [activeDot, setActiveDot] = useState(0);
   const [lightbox, setLightbox] = useState<{ src: string; title: string } | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -130,22 +129,6 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [generateGradients]);
 
-  // Carousel scroll tracking
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const handleCarouselScroll = () => {
-      const scrollLeft = carousel.scrollLeft;
-      const slideWidth = 320 + 32; // width + gap
-      const index = Math.round(scrollLeft / slideWidth);
-      setActiveDot(Math.min(index, screenshots.length - 1));
-    };
-
-    carousel.addEventListener('scroll', handleCarouselScroll);
-    return () => carousel.removeEventListener('scroll', handleCarouselScroll);
-  }, []);
-
   const scrollCarousel = (direction: 'left' | 'right') => {
     const carousel = carouselRef.current;
     if (!carousel) return;
@@ -154,13 +137,6 @@ function App() {
       ? carousel.scrollLeft - slideWidth
       : carousel.scrollLeft + slideWidth;
     carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
-  };
-
-  const scrollToDot = (index: number) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const slideWidth = 320 + 32;
-    carousel.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
   };
 
   return (
@@ -292,16 +268,7 @@ function App() {
           ))}
         </div>
 
-        <div className="carousel-dots">
-          {screenshots.map((_, idx) => (
-            <button
-              key={idx}
-              className={`carousel-dot ${idx === activeDot ? 'active' : ''}`}
-              onClick={() => scrollToDot(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
+
 
         <div className="carousel-nav">
           <button className="carousel-arrow" onClick={() => scrollCarousel('left')} aria-label="Previous">
@@ -471,11 +438,7 @@ function App() {
               <p className="footer-desc">
                 Helping Filipino drivers fuel smarter.
               </p>
-              <div className="footer-socials">
-                <a href="#" className="social-icon-btn">FB</a>
-                <a href="#" className="social-icon-btn">X</a>
-                <a href="#" className="social-icon-btn">IG</a>
-              </div>
+
             </div>
 
             <div className="footer-col">
@@ -508,7 +471,7 @@ function App() {
           </div>
 
           <div className="footer-bottom">
-            <p>© {new Date().getFullYear()} PumpQ Technologies, Inc. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} PumpQ Inc. All rights reserved.</p>
             <div className="footer-bottom-links">
               <a href="#" className="footer-link">Privacy Policy</a>
               <a href="#" className="footer-link">Terms</a>
