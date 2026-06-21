@@ -144,3 +144,9 @@ a {
   box-shadow: 0 0 8px var(--primary-orange);
   animation: pulse-soft 2s infinite ease-in-out;
 }
+
+/* Selection color */
+::selection {
+  background: rgba(232, 111, 56, 0.2);
+  color: var(--text-dark);
+}
