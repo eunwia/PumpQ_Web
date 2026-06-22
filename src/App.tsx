@@ -203,7 +203,7 @@ function App() {
             </h1>
             <p className="hero-subtitle">
               Find the best fuel prices nearby and manage your fuel budget in one place. 
-              Built for smart Filipino drivers.
+              Built for Filipino drivers.
             </p>
 
             <div className="hero-actions">
@@ -439,34 +439,6 @@ function App() {
                 Helping Filipino drivers fuel smarter.
               </p>
 
-            </div>
-
-            <div className="footer-col">
-              <h4 className="footer-col-title">Services</h4>
-              <ul className="footer-links">
-                <li><a href="#features" className="footer-link">QR Pay Express</a></li>
-                <li><a href="#features" className="footer-link">Partner Rewards</a></li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4 className="footer-col-title">Company</h4>
-              <ul className="footer-links">
-                <li><a href="#" className="footer-link">About Us</a></li>
-                <li><a href="#" className="footer-link">Partner Registration</a></li>
-                <li><a href="#" className="footer-link">Careers</a></li>
-                <li><a href="#" className="footer-link">News & Press</a></li>
-              </ul>
-            </div>
-
-            <div className="footer-col">
-              <h4 className="footer-col-title">Support</h4>
-              <ul className="footer-links">
-                <li><a href="#" className="footer-link">Help Center</a></li>
-                <li><a href="#" className="footer-link">Contact Support</a></li>
-                <li><a href="#" className="footer-link">Privacy Policy</a></li>
-                <li><a href="#" className="footer-link">Terms of Service</a></li>
-              </ul>
             </div>
           </div>
 
