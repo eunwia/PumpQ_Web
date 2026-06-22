@@ -752,7 +752,7 @@
 .footer {
   background-color: #121110;
   color: #8C8782;
-  padding: 60px 0 30px;
+  padding: 40px 0 24px;
   border-top: 1px solid #1E1C1A;
   margin-top: auto;
 }
@@ -761,7 +761,7 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .footer-brand {
@@ -773,13 +773,13 @@
 
 .footer-logo {
   color: var(--bg-white);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .footer-desc {
   font-size: 14px;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   max-width: 260px;
 }
 
@@ -843,7 +843,7 @@
 
 .footer-bottom {
   border-top: 1px solid #1E1C1A;
-  padding-top: 24px;
+  padding-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
