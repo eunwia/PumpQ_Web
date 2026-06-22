@@ -254,18 +254,20 @@ function App() {
           </div>
         </div>
 
-        <div className="screenshot-carousel" ref={carouselRef}>
-          {screenshots.map((shot, idx) => (
-            <div className="screenshot-slide scroll-reveal" key={idx} style={{ transitionDelay: `${0.1 * idx}s` }}>
-              <div className="screenshot-phone-frame" onClick={() => setLightbox({ src: shot.src, title: shot.title })}>
-                <img src={shot.src} alt={shot.title} className="screenshot-img" />
+        <div className="container">
+          <div className="screenshot-carousel" ref={carouselRef}>
+            {screenshots.map((shot, idx) => (
+              <div className="screenshot-slide scroll-reveal" key={idx} style={{ transitionDelay: `${0.1 * idx}s` }}>
+                <div className="screenshot-phone-frame" onClick={() => setLightbox({ src: shot.src, title: shot.title })}>
+                  <img src={shot.src} alt={shot.title} className="screenshot-img" />
+                </div>
+                <div className="screenshot-caption">
+                  <h3>{shot.title}</h3>
+                  <p>{shot.desc}</p>
+                </div>
               </div>
-              <div className="screenshot-caption">
-                <h3>{shot.title}</h3>
-                <p>{shot.desc}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
 
