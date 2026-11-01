@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Smartphone, 
   TrendingDown, 
@@ -12,47 +12,58 @@ import {
   X,
   ArrowRight,
   User,
-  ShieldCheck,
   Star,
   Activity,
   Menu,
   Award,
   Sparkles,
-  Search
+  Maximize2,
+  CheckCircle2,
+  Flame
 } from 'lucide-react';
 import './App.css';
 
 // Screenshot showcase data
 const screenshots = [
   {
+    id: 1,
     src: '/1.png',
-    tag: 'Dashboard',
     title: '#1 Fuel Buddy',
-    desc: 'Your all-in-one fuel companion with digital wallet, flash sales, and 1-tap quick refill orders.',
+    subtitle: 'All-in-One Dashboard & Quick Order',
+    desc: 'Manage your digital fuel wallet, track live promos, and order pump refills with a single tap.',
+    highlight: 'Instant Refill & Wallet',
   },
   {
+    id: 2,
     src: '/2.png',
-    tag: 'Discounts',
     title: 'Amazing Deals',
-    desc: 'Catch flash sales, redeem partner promos, and save on every liter at partner stations.',
+    subtitle: 'Flash Sales & Fuel Vouchers',
+    desc: 'Catch limited-time discounts from partner gas stations and save up to ₱2.50 per liter on every refill.',
+    highlight: 'Save up to ₱2.50/L',
   },
   {
+    id: 3,
     src: '/3.png',
-    tag: 'Live Map',
     title: 'Find Stations',
-    desc: 'Compare live fuel prices, distance, and real-time tank stock across nearby stations.',
+    subtitle: 'Real-Time Map & Station Radar',
+    desc: 'Compare live fuel rates, verify fuel tank availability, and navigate to the nearest partner station effortlessly.',
+    highlight: 'Live Distance & Stock',
   },
   {
+    id: 4,
     src: '/4.png',
-    tag: 'Loyalty',
     title: 'Earn Rewards',
-    desc: 'Collect points on every fill-up, climb membership tiers, and unlock exclusive driver cashback.',
+    subtitle: 'Loyalty Tiers & Rebates',
+    desc: 'Collect points automatically on every liter you fuel up. Climb to Silver and Gold VIP tiers for exclusive perks.',
+    highlight: 'Points on Every Liter',
   },
   {
+    id: 5,
     src: '/5.png',
-    tag: 'Analytics',
     title: 'Smart Insights',
-    desc: 'Track your weekly fuel spending, mileage budget, and overall savings in one unified dashboard.',
+    subtitle: 'Fuel Spend & Budget Analytics',
+    desc: 'Visualize your weekly fuel expenditures, budget forecasts, and mileage savings in a unified clean report.',
+    highlight: 'Weekly Budget Reports',
   },
 ];
 
@@ -61,7 +72,6 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [lightbox, setLightbox] = useState<{ src: string; title: string } | null>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Scroll header styling
   useEffect(() => {
@@ -91,25 +101,16 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSlide = (idx: number) => {
-    setActiveSlideIndex(idx);
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const slides = carousel.querySelectorAll('.screenshot-slide');
-    if (slides[idx]) {
-      slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-  };
-
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    const nextIdx = direction === 'left' 
-      ? Math.max(0, activeSlideIndex - 1)
-      : Math.min(screenshots.length - 1, activeSlideIndex + 1);
-    scrollToSlide(nextIdx);
-  };
-
   const handleDownloadAlert = (platform: string) => {
     alert(`Demo Mode: Starting download for ${platform}.`);
+  };
+
+  // Symmetrical circular positioning helper (-2, -1, 0, 1, 2)
+  const getRelativePosition = (idx: number, active: number, total: number) => {
+    let diff = (idx - active) % total;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
   };
 
   return (
@@ -198,25 +199,19 @@ function App() {
         </div>
 
         <div className="container hero-content-wrapper">
-          {/* Top Pill Tag */}
-          <div className="hero-pill-badge scroll-reveal">
-            <ShieldCheck size={16} className="pill-badge-icon" />
-            <span>Created for Filipino drivers</span>
-          </div>
-
           {/* Hero Main Heading */}
-          <h1 className="hero-headline scroll-reveal delay-1">
+          <h1 className="hero-headline scroll-reveal">
             PumpQ makes your fuel stop effortless
           </h1>
 
           {/* Subtitle */}
-          <p className="hero-subheading scroll-reveal delay-2">
+          <p className="hero-subheading scroll-reveal delay-1">
             Streamlining station discovery, live price comparisons, and digital payments —
-            trusted by over 50,000 drivers across the Philippines on Android and iOS.
+            engineered for smarter, cashless fueling across the Philippines on Android and iOS.
           </p>
 
           {/* Download Badges (Side by Side Badges from basis.png) */}
-          <div className="hero-store-badges scroll-reveal delay-3">
+          <div className="hero-store-badges scroll-reveal delay-2">
             {/* Google Play */}
             <button 
               className="store-pill-btn"
@@ -227,7 +222,7 @@ function App() {
                 <svg viewBox="0 0 512 512" fill="currentColor">
                   <path fill="#4285F4" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" />
                   <path fill="#34A853" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z" />
-                  <path fill="#FBBC05" d="M472.2 225.6l-58 33.3 60.1-60.1c11.9 6.8 18.2 16.2 18.2 26.8 0 10.6-6.3 20-18.2 26.8c.2.1.2 0 0 0z" />
+                  <path fill="#FBBC05" d="M472.2 225.6l-58 33.3 60.1-60.1c11.9 6.8 18.2 16.2 18.2 26.8c.2.1.2 0 0 0z" />
                   <path fill="#EA4335" d="M104.6 499l220.7-221.3 60.1 60.1L104.6 499z" />
                 </svg>
               </div>
@@ -266,13 +261,13 @@ function App() {
 
             {/* FLOATING ITEM: Left Stat Card with Pointer */}
             <div className="floating-card left-stat-card">
-              <div className="stat-card-label">Total Downloads</div>
-              <div className="stat-card-number">50,000+</div>
-              <div className="stat-card-avatars">
-                <div className="stat-avatar-circle" style={{ background: '#FF9E67' }}>🚗</div>
-                <div className="stat-avatar-circle" style={{ background: '#59B1FF' }}>🛵</div>
-                <div className="stat-avatar-circle" style={{ background: '#74D99F' }}>🚚</div>
-                <div className="stat-avatar-circle" style={{ background: '#E86F38' }}>+4k</div>
+              <div className="stat-card-label">Verified Stations</div>
+              <div className="stat-card-number">100+ Live</div>
+              <div className="stat-card-networks">
+                <span className="network-pill-tag">Shell</span>
+                <span className="network-pill-tag">Petron</span>
+                <span className="network-pill-tag">Caltex</span>
+                <span className="network-pill-tag">Seaoil</span>
               </div>
               {/* Pointer indicator node */}
               <div className="card-pointer pointer-right">
@@ -355,110 +350,125 @@ function App() {
       </section>
 
       {/* =========================================
-          SECTION 2: FEATURE SHOWCASE (Screenshots Carousel)
+          SECTION 2: CREATIVE 3D PERSPECTIVE SHOWCASE
+          (Unique, creative 3D device stage with zero generic categories)
           ========================================= */}
       <section id="showcase" className="showcase-section">
         <div className="container">
           <div className="section-head-center scroll-reveal">
-            <div className="section-micro-badge">
-              <Sparkles size={14} />
-              <span>App Showcase</span>
-            </div>
             <h2 className="section-main-heading">See What PumpQ Can Do</h2>
             <p className="section-sub-desc">
-              Explore the features that make PumpQ the smartest way to fuel up. 
-              From finding the cheapest station to earning rewards — it's all in your hands.
+              Explore the features designed to make every fuel stop effortless, transparent, and rewarding.
             </p>
-
-            {/* Quick Filter Tabs */}
-            <div className="showcase-tabs">
-              {screenshots.map((s, idx) => (
-                <button
-                  key={idx}
-                  className={`showcase-tab-btn ${activeSlideIndex === idx ? 'active' : ''}`}
-                  onClick={() => scrollToSlide(idx)}
-                >
-                  <span className="tab-tag">{s.tag}</span>
-                  <span className="tab-title">{s.title}</span>
-                </button>
-              ))}
-            </div>
           </div>
 
-          {/* Carousel */}
-          <div className="carousel-track-wrapper">
-            <div className="carousel-track" ref={carouselRef}>
-              {screenshots.map((shot, idx) => (
-                <div 
-                  className={`screenshot-slide scroll-reveal ${activeSlideIndex === idx ? 'current' : ''}`} 
-                  key={idx}
-                  onClick={() => scrollToSlide(idx)}
-                >
+          {/* 3D Perspective Device Stage */}
+          <div className="perspective-stage-wrapper scroll-reveal delay-1">
+            <div className="perspective-stage-track">
+              {screenshots.map((shot, idx) => {
+                const pos = getRelativePosition(idx, activeSlideIndex, screenshots.length);
+                const isActive = pos === 0;
+                return (
                   <div 
-                    className="slide-phone-shell" 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightbox({ src: shot.src, title: shot.title });
-                    }}
-                    title="Click to expand"
+                    key={shot.id}
+                    className={`stage-card pos-${pos} ${isActive ? 'is-active' : ''}`}
+                    onClick={() => setActiveSlideIndex(idx)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View ${shot.title}`}
                   >
-                    <div className="slide-phone-notch" />
-                    <img src={shot.src} alt={shot.title} className="slide-screen-img" />
-                    <div className="slide-zoom-hint">
-                      <Search size={16} />
-                      <span>Zoom</span>
+                    <div className="stage-device-frame">
+                      <div className="stage-device-island">
+                        <span className="island-lens" />
+                      </div>
+                      <img src={shot.src} alt={shot.title} className="stage-device-screen" />
+                      
+                      {isActive && (
+                        <button 
+                          className="stage-zoom-pill"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setLightbox({ src: shot.src, title: shot.title });
+                          }}
+                          aria-label="Expand image"
+                        >
+                          <Maximize2 size={15} />
+                          <span>Full View</span>
+                        </button>
+                      )}
                     </div>
+
+                    {!isActive && (
+                      <div className="stage-device-name-tag">
+                        <span>{shot.title}</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="slide-meta">
-                    <span className="slide-tag">{shot.tag}</span>
-                    <h3 className="slide-title">{shot.title}</h3>
-                    <p className="slide-desc">{shot.desc}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Carousel Navigation Arrows */}
-            <div className="carousel-nav-row">
-              <button 
-                className="carousel-btn-arrow" 
-                onClick={() => scrollCarousel('left')} 
-                aria-label="Previous slide"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <div className="carousel-dots-indicator">
-                {screenshots.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`dot-pill ${activeSlideIndex === idx ? 'active' : ''}`}
-                    onClick={() => scrollToSlide(idx)}
-                    aria-label={`Slide ${idx + 1}`}
-                  />
-                ))}
+            {/* Interactive Spotlight Console */}
+            <div className="stage-console-card">
+              <div className="console-step-badge">
+                <span className="step-current">0{activeSlideIndex + 1}</span>
+                <span className="step-divider">/</span>
+                <span className="step-total">0{screenshots.length}</span>
               </div>
-              <button 
-                className="carousel-btn-arrow" 
-                onClick={() => scrollCarousel('right')} 
-                aria-label="Next slide"
-              >
-                <ChevronRight size={22} />
-              </button>
+
+              <div className="console-content">
+                <div className="console-header-row">
+                  <h3 className="console-title">{screenshots[activeSlideIndex].title}</h3>
+                  <span className="console-pill-badge">
+                    <Sparkles size={13} />
+                    <span>{screenshots[activeSlideIndex].highlight}</span>
+                  </span>
+                </div>
+                <p className="console-subtitle">{screenshots[activeSlideIndex].subtitle}</p>
+                <p className="console-desc">{screenshots[activeSlideIndex].desc}</p>
+              </div>
+
+              <div className="console-nav-actions">
+                <button 
+                  className="console-arrow-btn"
+                  onClick={() => setActiveSlideIndex((prev) => (prev > 0 ? prev - 1 : screenshots.length - 1))}
+                  aria-label="Previous feature"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button 
+                  className="console-arrow-btn"
+                  onClick={() => setActiveSlideIndex((prev) => (prev < screenshots.length - 1 ? prev + 1 : 0))}
+                  aria-label="Next feature"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Segmented Feature Progress Strip */}
+            <div className="stage-segmented-strip">
+              {screenshots.map((shot, idx) => (
+                <button 
+                  key={idx}
+                  className={`strip-segment ${activeSlideIndex === idx ? 'active' : ''}`}
+                  onClick={() => setActiveSlideIndex(idx)}
+                >
+                  <div className="strip-segment-bar" />
+                  <span className="strip-segment-title">{shot.title}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* =========================================
-          SECTION 3: APP OVERVIEW (Refined Bento Grid)
+          SECTION 3: APP OVERVIEW (Animated Bento Grid)
           ========================================= */}
       <section id="overview" className="overview-section">
         <div className="container">
           <div className="section-head-center scroll-reveal">
-            <div className="section-micro-badge">
-              <Activity size={14} />
-              <span>Complete Overview</span>
-            </div>
             <h2 className="section-main-heading">Manage Your Fuel in One Place</h2>
             <p className="section-sub-desc">
               PumpQ combines everything you need — from comparing live gas rates to budget tracking — 
@@ -467,11 +477,19 @@ function App() {
           </div>
 
           <div className="bento-container">
-            {/* Card 1: Compare Prices (Wide 7-column) */}
+            {/* Card 1: Compare Prices (Wide 7-column) - Animated Ticker */}
             <div className="bento-tile tile-wide scroll-reveal delay-1">
-              <div className="tile-icon-box">
-                <TrendingDown size={22} />
+              <div className="tile-top-row">
+                <div className="tile-icon-box">
+                  <TrendingDown size={22} />
+                </div>
+                <div className="live-ping-indicator">
+                  <span className="ping-wave" />
+                  <span className="ping-center-dot" />
+                  <span>Live Price Sync</span>
+                </div>
               </div>
+
               <h3 className="tile-title">Compare Live Fuel Prices</h3>
               <p className="tile-desc">
                 Station fuel rates update dynamically. Instantly find who has the cheapest rates 
@@ -480,15 +498,19 @@ function App() {
               
               {/* Interactive Price Comparison Demo Widget */}
               <div className="bento-rates-widget">
-                <div className="rate-card-item highlight">
+                <div className="rate-card-item highlight animated-rate-card">
                   <div className="rate-item-header">
                     <span className="station-name">Caltex Mandaue</span>
-                    <span className="rate-badge-cheap">Cheapest</span>
+                    <span className="rate-badge-cheap">
+                      <Flame size={12} />
+                      <span>Cheapest</span>
+                    </span>
                   </div>
                   <div className="rate-prices-row">
-                    <div className="fuel-price-badge">
+                    <div className="fuel-price-badge price-glow">
                       <span className="fuel-label">Diesel</span>
                       <span className="fuel-cost">₱63.80/L</span>
+                      <span className="price-trend-down">↓ ₱0.40</span>
                     </div>
                     <div className="fuel-price-badge">
                       <span className="fuel-label">Unleaded</span>
@@ -497,7 +519,7 @@ function App() {
                   </div>
                   <div className="rate-item-footer">
                     <span>2.1 km away · In Stock</span>
-                    <span className="status-live">● Live Rates</span>
+                    <span className="status-live-beacon">● Updated 2m ago</span>
                   </div>
                 </div>
 
@@ -520,7 +542,7 @@ function App() {
               </div>
             </div>
 
-            {/* Card 2: Stock Checks (Medium 5-column) */}
+            {/* Card 2: Stock Checks (Medium 5-column) - Animated Fluid Tanks */}
             <div className="bento-tile tile-medium tile-dark scroll-reveal delay-2">
               <div className="tile-icon-box box-accent">
                 <Fuel size={22} />
@@ -531,15 +553,15 @@ function App() {
                 so you always know what's in stock before you drive.
               </p>
 
-              {/* Tank meter visuals */}
+              {/* Tank meter visuals with animated fluid wave */}
               <div className="tank-status-list">
                 <div className="tank-row">
                   <div className="tank-info">
                     <span>Unleaded 91</span>
                     <span className="tank-pct">94% Full</span>
                   </div>
-                  <div className="tank-bar">
-                    <div className="tank-fill fill-green" style={{ width: '94%' }} />
+                  <div className="tank-bar animated-tank-bar">
+                    <div className="tank-fill fill-green fluid-wave" style={{ width: '94%' }} />
                   </div>
                 </div>
                 <div className="tank-row">
@@ -547,23 +569,23 @@ function App() {
                     <span>Diesel Extra</span>
                     <span className="tank-pct">82% Full</span>
                   </div>
-                  <div className="tank-bar">
-                    <div className="tank-fill fill-orange" style={{ width: '82%' }} />
+                  <div className="tank-bar animated-tank-bar">
+                    <div className="tank-fill fill-orange fluid-wave" style={{ width: '82%' }} />
                   </div>
                 </div>
                 <div className="tank-row">
                   <div className="tank-info">
                     <span>Premium 95</span>
-                    <span className="tank-pct">Low Stock</span>
+                    <span className="tank-pct alert-pulse-tag">⚠️ Low Stock (28%)</span>
                   </div>
-                  <div className="tank-bar">
-                    <div className="tank-fill fill-amber" style={{ width: '28%' }} />
+                  <div className="tank-bar animated-tank-bar">
+                    <div className="tank-fill fill-amber fluid-wave" style={{ width: '28%' }} />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Card 3: Scan QR & Pay (One Third) */}
+            {/* Card 3: Scan QR & Pay (One Third) - Animated Laser Beam */}
             <div className="bento-tile tile-third scroll-reveal delay-1">
               <div className="tile-icon-box">
                 <ScanLine size={22} />
@@ -574,18 +596,25 @@ function App() {
                 No bills, no change, no hassle.
               </p>
               <div className="qr-badge-demo">
-                <div className="qr-scan-box">
-                  <div className="qr-scan-line" />
+                <div className="qr-scan-box animated-scanner">
+                  <div className="laser-beam-sweep" />
+                  <div className="scanner-bracket br-tl" />
+                  <div className="scanner-bracket br-tr" />
+                  <div className="scanner-bracket br-bl" />
+                  <div className="scanner-bracket br-br" />
                   <span className="qr-mini-icon">⚡</span>
                 </div>
                 <div className="qr-demo-text">
                   <strong>1-Tap Checkout</strong>
-                  <span>Instant digital receipt</span>
+                  <span className="qr-receipt-verified">
+                    <CheckCircle2 size={13} />
+                    <span>Instant receipt generated</span>
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Card 4: Find Stations (One Third) */}
+            {/* Card 4: Find Stations (One Third) - Animated Radar Sonar */}
             <div className="bento-tile tile-third scroll-reveal delay-2">
               <div className="tile-icon-box">
                 <MapPin size={22} />
@@ -595,13 +624,17 @@ function App() {
                 Browse partner stations on an interactive map. Filter by fuel type, price, or distance. 
                 Navigate directly with GPS integration.
               </p>
-              <div className="radar-station-pill">
-                <div className="radar-dot" />
+              <div className="radar-station-pill animated-radar-pill">
+                <div className="sonar-wave-container">
+                  <div className="sonar-wave wave-1" />
+                  <div className="sonar-wave wave-2" />
+                  <div className="sonar-center-dot" />
+                </div>
                 <span>12 stations within 5km</span>
               </div>
             </div>
 
-            {/* Card 5: Wallet & Spend (One Third) */}
+            {/* Card 5: Wallet & Spend (One Third) - Animated Sheen Card */}
             <div className="bento-tile tile-third scroll-reveal delay-3">
               <div className="tile-icon-box">
                 <Wallet size={22} />
@@ -611,13 +644,17 @@ function App() {
                 Top up your wallet, track transaction history, and budget your fuel spending in one place. 
                 Earn rewards on every transaction.
               </p>
-              <div className="wallet-mini-balance">
+              <div className="wallet-mini-balance animated-wallet-card">
+                <div className="card-sheen-sweep" />
                 <span className="balance-label">Current Balance</span>
-                <span className="balance-amount">₱2,450.00</span>
+                <div className="balance-row">
+                  <span className="balance-amount">₱2,450.00</span>
+                  <span className="balance-cashback-badge">+₱50 Rebate</span>
+                </div>
               </div>
             </div>
 
-            {/* Card 6: Flash Sales & Rewards (Full Width 12-col) */}
+            {/* Card 6: Flash Sales & Rewards (Full Width 12-col) - Golden Shimmer */}
             <div className="bento-tile tile-full tile-orange-banner scroll-reveal delay-2">
               <div className="banner-content-left">
                 <div className="banner-pill">
@@ -646,10 +683,13 @@ function App() {
                     <div className="tier-perk">2x Points + Perks</div>
                   </div>
                 </div>
-                <div className="tier-pill-card highlight-gold">
-                  <Award size={18} className="tier-icon tier-gold" />
+                <div className="tier-pill-card highlight-gold animated-gold-card">
+                  <Award size={18} className="tier-icon tier-gold gold-pulse-icon" />
                   <div>
-                    <div className="tier-name">Gold VIP</div>
+                    <div className="tier-name gold-sparkle-name">
+                      <span>Gold VIP</span>
+                      <Sparkles size={12} className="spin-sparkle-icon" />
+                    </div>
                     <div className="tier-perk">₱2/L Rebate + Deals</div>
                   </div>
                 </div>
@@ -673,11 +713,6 @@ function App() {
             </svg>
 
             <div className="cta-inner-content">
-              <div className="cta-community-pill">
-                <Sparkles size={14} />
-                <span>Join the PumpQ Community</span>
-              </div>
-
               <h2 className="cta-main-title">
                 Your Fuel, <br className="cta-br" />
                 Finally Under Control.
@@ -708,7 +743,7 @@ function App() {
                   <svg className="google-play-svg" viewBox="0 0 512 512" fill="currentColor">
                     <path fill="#4285F4" d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1z" />
                     <path fill="#34A853" d="M47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0z" />
-                    <path fill="#FBBC05" d="M472.2 225.6l-58 33.3 60.1-60.1c11.9 6.8 18.2 16.2 18.2 26.8 0 10.6-6.3 20-18.2 26.8c.2.1.2 0 0 0z" />
+                    <path fill="#FBBC05" d="M472.2 225.6l-58 33.3 60.1-60.1c11.9 6.8 18.2 16.2 18.2 26.8c.2.1.2 0 0 0z" />
                     <path fill="#EA4335" d="M104.6 499l220.7-221.3 60.1 60.1L104.6 499z" />
                   </svg>
                   <div className="cta-btn-text">
